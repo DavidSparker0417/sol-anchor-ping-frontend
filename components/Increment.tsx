@@ -3,12 +3,12 @@ import {
   useWallet,
   useAnchorWallet,
 } from "@solana/wallet-adapter-react"
-import * as anchor from "@project-serum/anchor"
+import * as anchor from "@coral-xyz/anchor"
 import { FC, useCallback, useEffect, useState } from "react"
 import idl from "../idl.json"
 import { Button, HStack, VStack, Text } from "@chakra-ui/react"
 
-const PROGRAM_ID = `9pbyP2VX8Rc7v4nR5n5Kf5azmnw5hHfkJcZKPHXW98mf`
+const PROGRAM_ID = new anchor.web3.PublicKey(`G2jNk58i9U7cDmQHbYQHysuBXmVhaSWCYTZEBkMeTQQ4`)
 
 export interface Props {
   counter
@@ -26,10 +26,10 @@ export const Increment: FC<Props> = ({ counter, setTransactionUrl }) => {
     try {
       provider = anchor.getProvider()
     } catch {
-      provider = new anchor.AnchorProvider(connection, wallet, {})
+      provider = new anchor.AnchorProvider(connection, wallet as anchor.Wallet, {})
       anchor.setProvider(provider)
     }
-    const program = new anchor.Program(idl as anchor.Idl, PROGRAM_ID)
+    const program = new anchor.Program(idl as anchor.Idl)
     setProgram(program)
     refreshCount(program)
   }, [])
@@ -42,7 +42,7 @@ export const Increment: FC<Props> = ({ counter, setTransactionUrl }) => {
         user: wallet.publicKey
       })
       .rpc()
-    
+
     setTransactionUrl(`https://explorer.solana.com/tx/${sig}?cluster=devnet`)
   }
 

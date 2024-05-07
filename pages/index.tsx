@@ -7,6 +7,7 @@ import { Initialize } from "../components/Initialize"
 import { useState } from "react"
 import Head from "next/head"
 import { Spacer, VStack, Text, Button, Box, Stack } from "@chakra-ui/react"
+import { Decrement } from "../components/Decrement"
 
 const Home: NextPage = (props) => {
   const [counter, setCounter] = useState("")
@@ -26,6 +27,10 @@ const Home: NextPage = (props) => {
               counter ? (
                 <VStack>
                   <Increment
+                    counter={counter}
+                    setTransactionUrl={setTransactionUrl}
+                  />
+                  <Decrement 
                     counter={counter}
                     setTransactionUrl={setTransactionUrl}
                   />
